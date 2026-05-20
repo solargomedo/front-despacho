@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Frontend - front_despacho
 
 [![React](https://img.shields.io/badge/React-18.2.0-blue?logo=react)](https://reactjs.org/) [![Vite](https://img.shields.io/badge/Vite-5.2.0-brightgreen?logo=vite)](https://vitejs.dev/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4.3-skyblue?logo=tailwindcss)](https://tailwindcss.com/)
@@ -127,3 +128,6 @@ No se detectó `Dockerfile` en este módulo. Para desarrollo DevOps, el frontend
 ## 📌 Nota
 
 Este README está diseñado para un entorno DevOps académico: documentación clara, separación de responsabilidades y preparación para despliegue contenedorizado.
+=======
+# front-despacho
+>>>>>>> f5a1418acf9b366da3048e40914bc81f74f698e8
