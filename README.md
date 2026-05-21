@@ -1,133 +1,119 @@
-<<<<<<< HEAD
-# Frontend - front_despacho
+# Frontend Innovatech - Despachos
 
-[![React](https://img.shields.io/badge/React-18.2.0-blue?logo=react)](https://reactjs.org/) [![Vite](https://img.shields.io/badge/Vite-5.2.0-brightgreen?logo=vite)](https://vitejs.dev/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4.3-skyblue?logo=tailwindcss)](https://tailwindcss.com/)
+Frontend React + Vite para gestionar ventas y despachos. Consume dos APIs backend:
 
-## 🎯 Objetivo
+- API ventas: `VITE_API_VENTAS`
+- API despachos: `VITE_API_DESPACHOS`
 
-Este módulo entrega la interfaz de usuario para la gestión de órdenes de venta y despachos. Está construido con React, Vite y Tailwind para desarrollo rápido y experiencia responsive.
+## Estructura DevOps
 
-## 📦 Estructura del frontend
-
-```
-front_despacho/
-├── .env
-├── package.json
-├── tailwind.config.js
-├── vite.config.js
-├── src/
-│   ├── main.jsx
-│   ├── index.css
-│   ├── Routes/
-│   │   └── AppRoutes.jsx
-│   └── componentes/
-│       ├── CrudAdmin.jsx
-│       ├── CrudAdmin/
-│       │   ├── CardComponent.jsx
-│       │   ├── FormCierreDespacho.jsx
-│       │   ├── FormDespacho.jsx
-│       │   ├── Modal.jsx
-│       │   ├── PruebaCards.jsx
-│       │   ├── SearchBar.jsx
-│       │   ├── TableCompras.jsx
-│       │   ├── TableDespachos.jsx
-│       │   └── ...
-│       └── Layouts/
-│           ├── Navbar.jsx
-│           ├── Footer.jsx
-│           └── Reviews.jsx
+```text
+front-despacho/
+|-- Dockerfile
+|-- nginx.conf
+|-- docker-compose.yml
+|-- docker-compose.prod.yml
+|-- .env.example
+|-- .github/workflows/deploy.yml
+|-- package.json
+`-- src/
 ```
 
-## 🛠️ Tecnologías y dependencias
+## Variables
 
-- React 18
-- Vite 5
-- Tailwind CSS 3
-- Axios
-- React Router DOM
-- React Hook Form
-- SweetAlert2
-- ESLint
-
-## 🔧 Scripts disponibles
-
-```bash
-npm install
-npm run dev
-npm run build
-npm run lint
-npm run preview
-```
-
-## 🌐 Variables de entorno
-
-El módulo incluye `.env` con las URLs locales esperadas:
+Para ejecución local se puede copiar `.env.example` a `.env`:
 
 ```env
-VITE_API_VENTAS=http://localhost:8080
+FRONTEND_PORT=8082
+VITE_API_VENTAS=http://localhost:8083
 VITE_API_DESPACHOS=http://localhost:8081
 ```
 
-## 🔗 Configuración de proxy
+En Vite, las variables `VITE_*` se incorporan durante el build. Por eso el workflow de CI/CD las entrega como `build-args` al construir la imagen Docker.
 
-`vite.config.js` define un proxy a un endpoint AWS:
+## Ejecución Local
 
-```js
-proxy: {
-  '/api': {
-    target: 'https://qic534o8o0.execute-api.us-east-1.amazonaws.com',
-    changeOrigin: true,
-    rewrite: (path) => path.replace(/^\/api/, '')
-  }
-}
+Instalar dependencias:
+
+```powershell
+npm install
 ```
 
-### Observación
+Modo desarrollo:
 
-El código frontend usa direcciones IP hardcodeadas en varios componentes. Esto es inconsistente con el uso de variables de entorno y la configuración de proxy. Se recomienda migrar todas las llamadas HTTP a `import.meta.env.VITE_API_VENTAS` y `VITE_API_DESPACHOS`.
-
-## 📌 Endpoints detectados
-
-| Archivo | Método | Endpoint | Propósito |
-|---|---|---|---|
-| `TableCompras.jsx` | GET | `http://192.168.30/api/v1/ventas` | Obtener ventas |
-| `FormDespacho.jsx` | PUT | `http://192.168.30/api/v1/ventas/{id}` | Actualizar venta |
-| `FormDespacho.jsx` | POST | `http://192.168.320/api/v1/despachos` | Crear despacho |
-| `TableDespachos.jsx` | GET | `http://192.168.3.20/api/v1/despachos` | Obtener despachos |
-| `FormCierreDespacho.jsx` | PUT | `http://192.168.320/api/v1/despachos/{id}` | Actualizar despacho |
-
-## 🚀 Ejecución local
-
-```bash
-cd front_despacho
-npm install
+```powershell
 npm run dev
 ```
 
-## 📦 Dockerización (recomendación)
+Build productivo:
 
-No se detectó `Dockerfile` en este módulo. Para desarrollo DevOps, el frontend debería contener:
+```powershell
+npm run build
+```
 
-- Un `Dockerfile` basado en `node:18-alpine` para build.
-- Un stage de producción que sirva archivos estáticos.
-- Variables de entorno en build-time y runtime.
+## Ejecución Con Docker
 
-## ⚠️ Consideraciones DevOps
+Desde la raíz del repositorio:
 
-- El frontend no está alineado con el proxy de Vite y las variables `.env`.
-- No hay workflow de GitHub Actions detectado.
-- Se recomienda añadir pruebas de integración de UI.
+```powershell
+docker compose up --build -d
+```
 
-## ✅ Recomendaciones
+El frontend queda disponible en:
 
-1. Normalizar todas las URLs en `.env`.
-2. Usar `import.meta.env.VITE_API_*` en los componentes.
-3. Añadir un `Dockerfile` para producción.
-4. Crear un workflow en `.github/workflows` para build y test.
+```text
+http://localhost:8082
+```
 
-## 📌 Nota
+## Dockerfile
 
-Este README está diseñado para un entorno DevOps académico: documentación clara, separación de responsabilidades y preparación para despliegue contenedorizado.
-=======
-# front-despacho
->>>>>>> f5a1418acf9b366da3048e40914bc81f74f698e8
+El Dockerfile usa multi-stage:
+
+1. Etapa `builder`: instala dependencias con `npm ci`, recibe las URLs de backend y genera `dist`.
+2. Etapa final: usa Nginx Alpine para servir los archivos estáticos.
+
+Nginx escucha en `8080` dentro del contenedor para poder ejecutarse con usuario no root.
+
+## CI/CD
+
+El workflow `.github/workflows/deploy.yml` se activa con push a la rama `deploy`.
+
+Flujo:
+
+1. Descarga el repositorio.
+2. Inicia Docker Buildx.
+3. Autentica en Docker Hub.
+4. Construye la imagen con las variables `VITE_API_*`.
+5. Publica:
+   - `${DOCKERHUB_USERNAME}/front-despacho:${GITHUB_SHA}`
+   - `${DOCKERHUB_USERNAME}/front-despacho:latest`
+6. Copia `docker-compose.prod.yml` a la instancia EC2 frontend.
+7. Ejecuta `docker compose pull` y `docker compose up -d`.
+
+## GitHub Secrets Requeridos
+
+| Secret | Uso |
+|---|---|
+| `DOCKERHUB_USERNAME` | Usuario del registro Docker Hub. |
+| `DOCKERHUB_TOKEN` | Token de acceso Docker Hub. |
+| `FRONTEND_EC2_HOST` | IP pública o DNS de la instancia EC2 frontend. |
+| `EC2_USER` | Usuario SSH de EC2, por ejemplo `ubuntu` o `ec2-user`. |
+| `EC2_SSH_KEY` | Llave privada SSH para acceder a EC2. |
+| `FRONTEND_PORT` | Puerto público del frontend, normalmente `80`. |
+| `VITE_API_VENTAS` | URL pública usada por el navegador para consumir ventas. |
+| `VITE_API_DESPACHOS` | URL pública usada por el navegador para consumir despachos. |
+
+## Integración Frontend Backend
+
+Las llamadas HTTP se centralizan en `src/config/api.js`:
+
+```js
+export const API_VENTAS = import.meta.env.VITE_API_VENTAS;
+export const API_DESPACHOS = import.meta.env.VITE_API_DESPACHOS;
+```
+
+Esto permite cambiar entre entorno local, Docker y EC2 configurando variables, sin modificar componentes React.
+
+## Nota De Seguridad
+
+En producción solo el frontend debería quedar expuesto a Internet. El backend puede quedar restringido por Security Groups y ser accesible únicamente desde la instancia frontend o desde reglas definidas por la arquitectura AWS del proyecto.
