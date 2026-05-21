@@ -3,7 +3,7 @@ services:
     build:
       context: .
       args:
-        VITE_API_VENTAS: ${VITE_API_VENTAS:-http://localhost:8080}
+        VITE_API_VENTAS: ${VITE_API_VENTAS:-http://localhost:8083}
         VITE_API_DESPACHOS: ${VITE_API_DESPACHOS:-http://localhost:8081}
     image: innovatech/front-despacho:local
     container_name: innovatech-front-despacho

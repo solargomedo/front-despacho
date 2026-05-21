@@ -25,7 +25,7 @@ Para ejecución local se puede copiar `.env.example` a `.env`:
 
 ```env
 FRONTEND_PORT=8082
-VITE_API_VENTAS=http://localhost:8080
+VITE_API_VENTAS=http://localhost:8083
 VITE_API_DESPACHOS=http://localhost:8081
 ```
 
