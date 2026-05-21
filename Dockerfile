@@ -4,9 +4,14 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm ci
 
 COPY . .
+
+ARG VITE_API_VENTAS=http://localhost:8080
+ARG VITE_API_DESPACHOS=http://localhost:8081
+ENV VITE_API_VENTAS=$VITE_API_VENTAS
+ENV VITE_API_DESPACHOS=$VITE_API_DESPACHOS
 
 RUN npm run build
 
