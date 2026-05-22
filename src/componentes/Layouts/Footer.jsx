@@ -1,5 +1,3 @@
-import React from "react";
-
 function Footer() {
   return (
     <footer className="bg-teal-500 p-4 text-center w-full rounded-xl">
