@@ -36,32 +36,32 @@ En Vite, las variables `VITE_*` se incorporan durante el build. Por eso el workf
 Instancia EC2 frontend:
 
 ```text
-IP publica: 54.234.84.72
-DNS publico: ec2-54-234-84-72.compute-1.amazonaws.com
+IP publica: 52.90.232.57
+DNS publico: ec2-52-90-232-57.compute-1.amazonaws.com
 IP privada: 172.31.21.92
 ```
 
 URL publica del frontend:
 
 ```text
-http://54.234.84.72
+http://52.90.232.57
 ```
 
 Instancia EC2 backend consumida por el frontend:
 
 ```text
-IP publica backend: 44.198.166.184
-Ventas API: http://44.198.166.184:8083
-Despachos API: http://44.198.166.184:8081
+IP publica backend: 3.238.32.197
+Ventas API: http://3.238.32.197:8083
+Despachos API: http://3.238.32.197:8081
 ```
 
 Secrets actuales requeridos en GitHub Actions:
 
 ```text
-FRONTEND_EC2_HOST=54.234.84.72
+FRONTEND_EC2_HOST=52.90.232.57
 FRONTEND_PORT=80
-VITE_API_VENTAS=http://44.198.166.184:8083
-VITE_API_DESPACHOS=http://44.198.166.184:8081
+VITE_API_VENTAS=http://3.238.32.197:8083
+VITE_API_DESPACHOS=http://3.238.32.197:8081
 ```
 
 Si AWS Academy detiene e inicia el laboratorio, las IP publicas pueden cambiar. Cuando eso ocurra se deben actualizar `FRONTEND_EC2_HOST`, `VITE_API_VENTAS` y `VITE_API_DESPACHOS`, y luego volver a ejecutar el workflow de despliegue del frontend porque Vite compila esas URLs dentro del bundle.
