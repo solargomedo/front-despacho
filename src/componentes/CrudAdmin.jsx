@@ -1,27 +1,13 @@
 import Navbar from "./Layouts/Navbar";
-import Footer from "./Layouts/Footer";
-
 import { PruebaCards } from "./CrudAdmin/PruebaCards";
-import Reviews from "./Layouts/Reviews";
 
 export const CrudAdmin = () => {
   return (
-    <>
-      <div className="grid grid-cols-[auto_1fr] min-h-screen bg-gray-50">
-        <div className="col-span-1">
-          {/* Columna 1: Navbar (ancho fijo) */}
-          <Navbar />
-        </div>
-
-        {/* Columna 2: Contenido principal (ocupa el espacio restante) */}
-        <div className="overflow-y-auto p-6">
-          {" "}
-          {/* Por si el contenido es muy largo */}
-          <PruebaCards />
-          <Reviews />
-          <Footer />
-        </div>
+    <div className="min-h-screen bg-slate-100 lg:grid lg:grid-cols-[260px_1fr]">
+      <Navbar />
+      <div className="min-w-0 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <PruebaCards />
       </div>
-    </>
+    </div>
   );
 };
