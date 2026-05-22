@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { API_DESPACHOS, API_VENTAS } from "../../config/api";
 
 export const FormDespacho = ({ venta, onClose }) => {
   const { register, handleSubmit } = useForm();
@@ -11,13 +12,16 @@ export const FormDespacho = ({ venta, onClose }) => {
       fechaDespacho: data.fechaDespacho,
       patenteCamion: data.patenteCamion,
       intento: 0,
-      entregado: false,
+      despachado: false,
       idCompra: venta.idVenta,
       direccionCompra: venta.direccionCompra,
       valorCompra: venta.valorCompra,
     };
 
     const jsonDataSales = {
+      fechaCompra: venta.fechaCompra,
+      direccionCompra: venta.direccionCompra,
+      valorCompra: venta.valorCompra,
       despachoGenerado: true,
     };
 
@@ -25,7 +29,7 @@ export const FormDespacho = ({ venta, onClose }) => {
 
     try {
       await axios.put(
-        `http://192.168.30/api/v1/ventas/${venta.idVenta}`,
+        `${API_VENTAS}/api/v1/ventas/${venta.idVenta}`,
         jsonDataSales,
         {
           headers:{
@@ -34,7 +38,7 @@ export const FormDespacho = ({ venta, onClose }) => {
       }
         }
       );
-      await axios.post("http://192.168.320/api/v1/despachos", jsonData, {
+      await axios.post(`${API_DESPACHOS}/api/v1/despachos`, jsonData, {
         headers:{
           'Content-Type': 'application/json',
           'Accept': 'application/json'
