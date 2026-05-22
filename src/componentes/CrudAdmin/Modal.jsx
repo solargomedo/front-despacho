@@ -1,27 +1,19 @@
-import React from "react";
-
 export const Modal = ({ open, onClose, children }) => {
+  if (!open) return null;
+
   return (
-    <div
-      className={`fixed inset-0 z-10 flex justify-center items-center ${
-        open ? "visible bg-black/50 " : "invisible"
-      }`}
-    >
-      <div
-        onClick={(e) => {
-          e.stopPropagation;
-        }}
-        className={`flex flex-col items-end bg-white  transition-all rounded-lg ${
-          open ? "scale-90 opacity-100" : "scale-100 opacity-0"
-        }`}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          className="z-20 -mb-6 fill-emerald-500 hover:fill-emerald-600  font-bold hover:text-4xl text-3xl bg-teal-600 text-white transition-all w-14 h-14 "
-        >
-          X
-        </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4">
+      <div className="max-h-[92vh] overflow-y-auto rounded-lg bg-white shadow-2xl">
+        <div className="flex justify-end border-b border-slate-100 p-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="h-9 w-9 rounded-md bg-slate-100 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
+            aria-label="Cerrar modal"
+          >
+            X
+          </button>
+        </div>
         {children}
       </div>
     </div>
