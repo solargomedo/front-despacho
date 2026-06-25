@@ -39,13 +39,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push frontend image
+      - name: Build and push frontend image amd64
         run: |
           docker buildx build \
             --platform linux/amd64 \
             --provenance=false \
             --push \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:amd64 \
             --build-arg VITE_API_VENTAS=http://ventas-api-service:8080 \
             --build-arg VITE_API_DESPACHOS=http://despachos-api-service:8081 \
             .
