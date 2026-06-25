@@ -40,14 +40,13 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push frontend image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          platforms: linux/amd64
-          provenance: false
-          tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
-          build-args: |
-            VITE_API_VENTAS=http://ventas-api-service:8080
-            VITE_API_DESPACHOS=http://despachos-api-service:8081
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            --provenance=false \
+            --load \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
+            --build-arg VITE_API_VENTAS=http://ventas-api-service:8080 \
+            --build-arg VITE_API_DESPACHOS=http://despachos-api-service:8081 \
+            .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
