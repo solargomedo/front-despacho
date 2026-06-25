@@ -36,7 +36,7 @@ En Vite, las variables `VITE_*` se incorporan durante el build. Por eso el workf
 Instancia EC2 frontend:
 
 ```text
-IP publica: 52.90.232.57
+IP publica: 54.236.6.17
 DNS publico: ec2-52-90-232-57.compute-1.amazonaws.com
 IP privada: 172.31.21.92
 ```
