@@ -44,9 +44,8 @@ jobs:
           docker buildx build \
             --platform linux/amd64 \
             --provenance=false \
-            --load \
+            --push \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
             --build-arg VITE_API_VENTAS=http://ventas-api-service:8080 \
             --build-arg VITE_API_DESPACHOS=http://despachos-api-service:8081 \
             .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
