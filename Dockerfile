@@ -1,4 +1,4 @@
-FROM node:20-alpine AS builder
+FROM --platform=linux/amd64 node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ ENV VITE_API_DESPACHOS=$VITE_API_DESPACHOS
 RUN npm run build
 
 
-FROM nginx:alpine
+FROM --platform=linux/amd64 nginx:alpine
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
